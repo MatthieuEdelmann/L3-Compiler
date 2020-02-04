@@ -47,22 +47,22 @@ void SAUTER_SEPARATEURS() {
 }
 
 T_UNILEX RECO_ENTIER(){ // ??? initialisation
-    LIRE_CAR(SOURCE); // ???
+    LIRE_CAR(); // ???
     while ((int)CARLU >= 48 && (int)CARLU <= 57) { //CODE ASCII : 48 à 57 = chiffres 0 à 9
         if(NOMBRE * 10 + (int)CARLU > MAX_INT) ERREUR(2);
         NOMBRE = NOMBRE * 10 + (int)CARLU; //Chiffre precedent multiplier par 10 sur lequel on additionne le chiffre actuel
-        LIRE_CAR(SOURCE);
+        LIRE_CAR();
     }
     return NOMBRE;
 }
 
 char RECO_CHAINE(){
-    LIRE_CAR(SOURCE);
+    LIRE_CAR();
     int i =0;
     while (CARLU == "'"){
         if (i  >= LONG_MAX_CHAINE) ERREUR(3);
         CHAINE[i] = CARLU;
-        LIRE_CAR(SOURCE);
+        LIRE_CAR();
         i++;
     }
     // voir le type de retour
@@ -75,7 +75,7 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
 
 
 
-T_UNILEX RECO_SYMB(char CARLU){
+T_UNILEX RECO_SYMB(){
     switch (CARLU)
     {
         case ';':
@@ -106,7 +106,7 @@ T_UNILEX RECO_SYMB(char CARLU){
             return parfer;
             break;
         case '>':
-            LIRE_CAR(SOURCE);
+            LIRE_CAR();
             if(CARLU == '=' )
                 return supe;
             break;
@@ -115,7 +115,7 @@ T_UNILEX RECO_SYMB(char CARLU){
                 break;
             }
         case ':':
-            LIRE_CAR(SOURCE);
+            LIRE_CAR();
             if(CARLU == '=' )
                 return aff;
             break;
@@ -124,7 +124,7 @@ T_UNILEX RECO_SYMB(char CARLU){
                 break;
             }
         case '<':
-            LIRE_CAR(SOURCE);
+            LIRE_CAR();
             if(CARLU == '=' )
                 return infe;
             break;
@@ -148,7 +148,21 @@ T_UNILEX RECO_SYMB(char CARLU){
 
 
 void ANALEX(){
-
+    if ((CARLU == ' ')|| (CARLU == '{')){
+        SAUTER_SEPARATEURS();
+    }
+    else if (((int)CARLU >= 48) && ((int)CARLU <= 57)){ // un entier
+        RECO_ENTIER();
+    }
+    else if (CARLU == "'"){
+        RECO_CHAINE();
+    }
+    else if (){
+        //reco ident OU MOT CLE
+        RECO_IDENT_OU_MOT_RESERVE();
+    }
+    else
+        RECO_SYMB();
 }
 
 

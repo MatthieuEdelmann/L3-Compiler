@@ -4,7 +4,7 @@
 
 int main() {
     INITIALISER();
-    LIRE_CAR()
+    LIRE_CAR();
     ANALEX();
     TERMINER();
 }
