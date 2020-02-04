@@ -33,7 +33,6 @@ void LIRE_CAR(){
 void SAUTER_SEPARATEURS() {
     bool flag = false;
     while (!flag) {
-        LIRE_CAR();
         while (CARLU == ' ' || CARLU == '\n') {
             LIRE_CAR();
         }
@@ -41,13 +40,15 @@ void SAUTER_SEPARATEURS() {
             while (CARLU != '}') {
                 LIRE_CAR();
             }
-            // demander au prof /* eded/*dfd*/ dde*/
+        }
+        else if (CARLU == '}'){
+            flag = true
         }
     }
 }
 
-T_UNILEX RECO_ENTIER(){ // ??? initialisation
-    LIRE_CAR(); // ???
+
+T_UNILEX RECO_ENTIER(){
     while ((int)CARLU >= 48 && (int)CARLU <= 57) { //CODE ASCII : 48 à 57 = chiffres 0 à 9
         if(NOMBRE * 10 + (int)CARLU > MAX_INT) ERREUR(2);
         NOMBRE = NOMBRE * 10 + (int)CARLU; //Chiffre precedent multiplier par 10 sur lequel on additionne le chiffre actuel
@@ -57,9 +58,9 @@ T_UNILEX RECO_ENTIER(){ // ??? initialisation
 }
 
 char RECO_CHAINE(){
+    int i = 0;
     LIRE_CAR();
-    int i =0;
-    while (CARLU == "'"){
+    while (CARLU != "'"){
         if (i  >= LONG_MAX_CHAINE) ERREUR(3);
         CHAINE[i] = CARLU;
         LIRE_CAR();
@@ -70,7 +71,13 @@ char RECO_CHAINE(){
 }
 
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
-
+    int i = 0;
+    while(((int)CARLU >= 48 && (int)CARLU <= 57) || ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
+        if (i >= LONG_MAX_CHAINE) ERREUR(3);
+        CHAINE[i] = CARLU;
+        LIRE_CAR();
+        i++;
+    }
 }
 
 
@@ -157,7 +164,7 @@ void ANALEX(){
     else if (CARLU == "'"){
         RECO_CHAINE();
     }
-    else if (){
+    else if ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
         //reco ident OU MOT CLE
         RECO_IDENT_OU_MOT_RESERVE();
     }
@@ -189,7 +196,7 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
 
 void INITIALISER(){
     NUM_LIGNE = 0;
-    FILE* fichier = fopen("SOURCE.txt", 'w');
+    SOURCE = fopen("SOURCE.txt", 'r');
     char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9] = {{0},{0}}; // initialise le tableau avec des '0'
     INSERE_TABLE_RESERVES("PROGRAMME");
     INSERE_TABLE_RESERVES("DEBUT");
