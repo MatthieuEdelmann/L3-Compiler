@@ -85,18 +85,16 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
         if (EST_UN_MOT_RESERVE()) return motcle;
         else return ident;
     }
-
-    bool EST_UN_MOT_RESERVE(){
-        int i = 0;
-        do {
-            if (CHAINE == TABLE_MOTS_RESERVES[0]) return true;
-            i++;
-        } while (strcmp(CHAINE, TABLE_MOTS_RESERVES[0]) != 1 || i < NB_MOTS_RESERVES);
-        return false;
-    }
 }
 
-
+bool EST_UN_MOT_RESERVE(){//metre en locale !!!
+    int i = 0;
+    do {
+        if (CHAINE == TABLE_MOTS_RESERVES[0]) return true;
+        i++;
+    } while (strcmp(CHAINE, TABLE_MOTS_RESERVES[0]) != 1 || i < NB_MOTS_RESERVES);
+    return false;
+}
 
 
 T_UNILEX RECO_SYMB(){
