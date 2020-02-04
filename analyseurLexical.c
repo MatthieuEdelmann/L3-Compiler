@@ -213,7 +213,7 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
 
 void INITIALISER(){
     NUM_LIGNE = 0;
-    SOURCE = fopen("SOURCE.txt", 'r');
+    SOURCE = fopen("SOURCE.txt", "r");
     char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9] = {{0},{0}}; // initialise le tableau avec des '0'
     INSERE_TABLE_RESERVES("PROGRAMME");
     INSERE_TABLE_RESERVES("DEBUT");
