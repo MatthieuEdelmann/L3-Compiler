@@ -48,7 +48,7 @@ void SAUTER_SEPARATEURS() {
 
 T_UNILEX RECO_ENTIER(){ // ??? initialisation
     LIRE_CAR(SOURCE); // ???
-    while (Asc(CARLU) >= 48 && Asc(CARLU) <= 57) { //CODE ASCII : 48 à 57 = chiffres 0 à 9
+    while ((int)CARLU >= 48 && (int)CARLU <= 57) { //CODE ASCII : 48 à 57 = chiffres 0 à 9
         if(NOMBRE * 10 + (int)CARLU > MAX_INT) ERREUR(2);
         NOMBRE = NOMBRE * 10 + (int)CARLU; //Chiffre precedent multiplier par 10 sur lequel on additionne le chiffre actuel
         LIRE_CAR(SOURCE);
@@ -152,7 +152,7 @@ void ANALEX(){
 }
 
 
-void INSERE_TABLE_RESERVES(char[9] nouveauMot){
+void INSERE_TABLE_RESERVES(char nouveauMot[]){
     int i = 0;
     bool flag = true;
     while (flag){
@@ -177,13 +177,13 @@ void INITIALISER(){
     NUM_LIGNE = 0;
     FILE* fichier = fopen("SOURCE.txt", 'w');
     char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9] = {{0},{0}}; // initialise le tableau avec des '0'
-    INSERE_TABLE_RESERVES(PROGRAMME);
-    INSERE_TABLE_RESERVES(DEBUT);
-    INSERE_TABLE_RESERVES(FIN);
-    INSERE_TABLE_RESERVES(CONST);
-    INSERE_TABLE_RESERVES(VAR);
-    INSERE_TABLE_RESERVES(ECRIRE);
-    INSERE_TABLE_RESERVES(LIRE);
+    INSERE_TABLE_RESERVES("PROGRAMME");
+    INSERE_TABLE_RESERVES("DEBUT");
+    INSERE_TABLE_RESERVES("FIN");
+    INSERE_TABLE_RESERVES("CONST");
+    INSERE_TABLE_RESERVES("VAR");
+    INSERE_TABLE_RESERVES("ECRIRE");
+    INSERE_TABLE_RESERVES("LIRE");
     TABLE_MOTS_RESERVES;
 }
 
