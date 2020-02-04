@@ -4,6 +4,8 @@
 
 #include "analyseurLexical.h"
 
+
+
 //ok
 void ERREUR(int numeroErreur){
     switch (numeroErreur){
@@ -71,14 +73,29 @@ char RECO_CHAINE(){
 }
 
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
+
     int i = 0;
     while(((int)CARLU >= 48 && (int)CARLU <= 57) || ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
-        if (i >= LONG_MAX_CHAINE) ERREUR(3);
-        CHAINE[i] = CARLU;
+        if (i < LONG_MAX_CHAINE) {
+            if ((int)CARLU >= 97 && (int)CARLU <= 122) CARLU -= 32;
+            CHAINE[i] = CARLU;
+        }
         LIRE_CAR();
         i++;
+        if (EST_UN_MOT_RESERVE()) return motcle;
+        else return ident;
+    }
+
+    bool EST_UN_MOT_RESERVE(){
+        int i = 0;
+        do {
+            if (CHAINE == TABLE_MOTS_RESERVES[0]) return true;
+            i++;
+        } while (strcmp(CHAINE, TABLE_MOTS_RESERVES[0]) != 1 || i < NB_MOTS_RESERVES);
+        return false;
     }
 }
+
 
 
 
