@@ -31,23 +31,22 @@ void LIRE_CAR(){
     }
 }
 
-// warning
 void SAUTER_SEPARATEURS() {
     bool flag = false;
     while (!flag) {
-        while (CARLU == ' ' || CARLU == '\n') {
-            LIRE_CAR();
+        while (CARLU == ' '  || CARLU == '\n') {
+            LIRE_CAR(SOURCE);
         }
         if (CARLU == '{') {
             while (CARLU != '}') {
-                LIRE_CAR();
+                LIRE_CAR(SOURCE);
             }
+            LIRE_CAR(SOURCE);
         }
-        else if (CARLU == '}'){
-            flag = true
-        }
+        
+        flag = true;
     }
-}
+}// TEST bon
 
 
 T_UNILEX RECO_ENTIER(){
