@@ -33,13 +33,13 @@ void LIRE_CAR(){
 void SAUTER_SEPARATEURS() {
     bool flag = false;
     while (!flag) {
-        LIRE_CAR(SOURCE); // ???
+        LIRE_CAR(); // ???
         while (CARLU == " " || CARLU == "\n") {
-            LIRE_CAR(SOURCE);
+            LIRE_CAR();
         }
         if (CARLU == "{") {
             while (CARLU != "}") {
-                LIRE_CAR(SOURCE);
+                LIRE_CAR();
             }
             // demander au prof /* eded/*dfd*/ dde*/
         }
