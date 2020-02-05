@@ -159,13 +159,10 @@ T_UNILEX RECO_SYMB(){
             }
 
         default:
+            ERREUR(4); // si le caractere n'est pas compris parmi eux alors on le connais
             break;
     }
 }
-// faire un LIRE_CAR(SOURCE) avant chaque return ???
-// type de retour
-
-
 
 void ANALEX(){
     if ((CARLU == ' ')|| (CARLU == '{')){
@@ -208,7 +205,7 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
 }
 
 void INITIALISER(){
-    NUM_LIGNE = 0;
+    NUM_LIGNE = 1;
     SOURCE = fopen("SOURCE.txt", "r");
     char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9] = {{0},{0}}; // initialise le tableau avec des '0'
     INSERE_TABLE_RESERVES("PROGRAMME");
