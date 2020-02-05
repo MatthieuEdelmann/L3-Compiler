@@ -35,15 +35,14 @@ void SAUTER_SEPARATEURS() {
     bool flag = false;
     while (!flag) {
         while (CARLU == ' '  || CARLU == '\n') {
-            LIRE_CAR(SOURCE);
+            LIRE_CAR();
         }
         if (CARLU == '{') {
             while (CARLU != '}') {
-                LIRE_CAR(SOURCE);
+                LIRE_CAR();
             }
-            LIRE_CAR(SOURCE);
+            LIRE_CAR();
         }
-        
         flag = true;
     }
 }// TEST bon
