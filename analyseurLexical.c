@@ -58,17 +58,16 @@ T_UNILEX RECO_ENTIER(){
 }
 
 char RECO_CHAINE(){
-    int i = 0;
+    int i =0;
     LIRE_CAR();
-    while (CARLU != "'"){
+    while ((int)CARLU != 39){
         if (i  >= LONG_MAX_CHAINE) ERREUR(3);
-        CHAINE[i] = CARLU;
+        CHAINE[i] = CARLU; 
         LIRE_CAR();
         i++;
     }
-    // voir le type de retour
     return CHAINE;
-}
+}//TEST bon 
 
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
 
@@ -157,7 +156,6 @@ T_UNILEX RECO_SYMB(){
                 return inf;
                 break;
             }
-
         default:
             ERREUR(4); // si le caractere n'est pas compris parmi eux alors on le connais
             break;
@@ -171,7 +169,7 @@ void ANALEX(){
     else if (((int)CARLU >= 48) && ((int)CARLU <= 57)){ // un entier
         RECO_ENTIER();
     }
-    else if (CARLU == "'"){
+     else if ((int)CARLU == 39){
         RECO_CHAINE();
     }
     else if ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
