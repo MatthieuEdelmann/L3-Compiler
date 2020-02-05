@@ -48,12 +48,14 @@ void SAUTER_SEPARATEURS() {
 }// TEST bon
 
 
-T_UNILEX RECO_ENTIER(){
-    while ((int)CARLU >= 48 && (int)CARLU <= 57) { //CODE ASCII : 48 à 57 = chiffres 0 à 9
-        if(NOMBRE * 10 + (int)CARLU > MAX_INT) ERREUR(2);
-        NOMBRE = NOMBRE * 10 + (int)CARLU; //Chiffre precedent multiplier par 10 sur lequel on additionne le chiffre actuel
-        LIRE_CAR();
+T_UNILEX RECO_ENTIER(){ 
+    char* CHAINE= malloc(sizeof(CHAINE));
+    while (((int)CARLU >= 48) && ((int)CARLU <= 57)) { 
+       CHAINE = strcat(CHAINE,&CARLU);
+        LIRE_CAR(SOURCE);
     }
+   if(strlen(CHAINE) > 6)  ERREUR(2); // a faire mieux
+    NOMBRE = atoi(CHAINE);
     return NOMBRE;
 }
 
