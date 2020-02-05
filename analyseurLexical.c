@@ -95,72 +95,85 @@ bool EST_UN_MOT_RESERVE(){//metre en locale !!!
     return false;
 }
 
-
 T_UNILEX RECO_SYMB(){
     switch (CARLU)
     {
-        case ';':
-            return ptvirg;
-            break;
-        case '.':
-            return point;
-            break;
-        case '=':
-            return eg;
-            break;
-        case '+':
-            return plus;
-            break;
-        case '-':
-            return moins;
-            break;
-        case '*':
-            return mult;
-            break;
-        case '/':
-            return divi;
-            break;
-        case '(':
-            return parouv;
-            break;
-        case ')':
-            return parfer;
-            break;
-        case '>':
+    case ';':
+        LIRE_CAR();
+        return ptvirg;
+        break;
+    case '.':
+        LIRE_CAR();
+        return point;
+        break;
+    case '=':
+        LIRE_CAR();
+        return eg;
+        break;
+    case '+':
+        LIRE_CAR();
+        return plus;
+        break;
+    case '-':
+        LIRE_CAR();
+        return moins;
+        break;
+    case '*':
+        LIRE_CAR();
+        return mult;
+        break;
+    case '/':
+        LIRE_CAR();
+        return divi;
+        break;
+    case '(':
+        LIRE_CAR();
+        return parouv;
+        break;
+    case ')':
+        LIRE_CAR();
+        return parfer;
+        break;
+    case '>':
+        LIRE_CAR();
+        if(CARLU == '=' )
             LIRE_CAR();
-            if(CARLU == '=' )
-                return supe;
+            return supe;
             break;
-            if(CARLU != '='){
-                return sup;
-                break;
-            }
-        case ':':
+        if(CARLU != '='){
             LIRE_CAR();
-            if(CARLU == '=' )
-                return aff;
+            return sup;
             break;
-            if (CARLU != '='){
-                return deuxpts;
-                break;
-            }
-        case '<':
+        }
+    case ':':
+        LIRE_CAR();
+        if(CARLU == '=' )
             LIRE_CAR();
-            if(CARLU == '=' )
-                return infe;
+            return aff;
             break;
-            if( CARLU == '>'){
-                return diff;
-                break;
-            }
-            else
-            {
-                return inf;
-                break;
-            }
-        default:
-            ERREUR(4); // si le caractere n'est pas compris parmi eux alors on le connais
+        if (CARLU != '='){
+            return deuxpts;
             break;
+        }
+    case '<':
+        LIRE_CAR();
+        if(CARLU == '=' )
+            LIRE_CAR();
+            return infe;
+            break;
+        if( CARLU == '>'){ 
+            LIRE_CAR();
+            return diff;
+            break;
+        }
+        else
+        {
+            return inf;
+            break;
+        }
+    default:
+        ERREUR(4); // si le caractere n'est pas compris parmi eux alors on le connais
+        break;
     }
 }
 
