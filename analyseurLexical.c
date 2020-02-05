@@ -54,12 +54,12 @@ T_UNILEX RECO_ENTIER(){
        CHAINE = strcat(CHAINE,&CARLU);
         LIRE_CAR(SOURCE);
     }
-   if(strlen(CHAINE) > 6)  ERREUR(2); // a faire mieux
+   if(strlen(CHAINE) >= NB_MOTS_RESERVES)  ERREUR(2); // a faire mieux
     NOMBRE = atoi(CHAINE);
-    return NOMBRE;
+    return ent;
 }
 
-char RECO_CHAINE(){
+T_UNILEX RECO_CHAINE(){
     int i =0;
     LIRE_CAR();
     while ((int)CARLU != 39){
@@ -68,7 +68,7 @@ char RECO_CHAINE(){
         LIRE_CAR();
         i++;
     }
-    return CHAINE;
+    return ch;
 }//TEST bon 
 
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
@@ -171,10 +171,10 @@ void ANALEX(){
     else if (((int)CARLU >= 48) && ((int)CARLU <= 57)){ // un entier
         RECO_ENTIER();
     }
-     else if ((int)CARLU == 39){
+    else if ((int)CARLU == 39){
         RECO_CHAINE();
     }
-    else if ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
+    else if ((int)CARLU >= 65 && (int)CARLU <= 90 || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
         //reco ident OU MOT CLE
         RECO_IDENT_OU_MOT_RESERVE();
     }
@@ -186,19 +186,20 @@ void ANALEX(){
 void INSERE_TABLE_RESERVES(char nouveauMot[]){
     int i = 0;
     bool flag = true;
-    while (flag){
-        int tableLenght = 0;
-        for (tableLenght; tableLenght < NB_MOTS_RESERVES; ++i) {
-            if((int)TABLE_MOTS_RESERVES[tableLenght][0] == 0) break;
-        }
+    while (flag) {
+        printf("flag");
         int strcmpResult = strcmp(nouveauMot,TABLE_MOTS_RESERVES[i]); //Comparaison entre le nouveauMot et le mot positionné dans la table
+        printf("\nstr%d : ",strcmpResult);
         // (strcmpResult == -1)nouveauMot inferieur / on continue
         // (strcmpResult == 0) nouveauMot identique / on continue
         if (strcmpResult == 1) { //nouveauMot devient donc le plus grand mot
-            for (int j = tableLenght; j < i + 1; --j) {
+            for (int j = NB_MOTS_RESERVES-1; j < i + 1; --j) {
                 strcpy(TABLE_MOTS_RESERVES[j], TABLE_MOTS_RESERVES[j - 1]);
             }
             flag = false;
+        }
+        for (int j = 0; j < 9; ++j) {
+            printf("%c",TABLE_MOTS_RESERVES[i][j]);
         }
         i++;
     }
@@ -207,7 +208,13 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
 void INITIALISER(){
     NUM_LIGNE = 1;
     SOURCE = fopen("SOURCE.txt", "r");
-    char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9] = {{0},{0}}; // initialise le tableau avec des '0'
+    // initialise le tableau avec des '0'
+    memset(TABLE_MOTS_RESERVES, '0', sizeof(char) * NB_MOTS_RESERVES * 9);
+    /*for (int i = 0; i < NB_MOTS_RESERVES; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            printf("%c",TABLE_MOTS_RESERVES[i][j]);
+        }
+    }*/
     INSERE_TABLE_RESERVES("PROGRAMME");
     INSERE_TABLE_RESERVES("DEBUT");
     INSERE_TABLE_RESERVES("FIN");
@@ -215,7 +222,6 @@ void INITIALISER(){
     INSERE_TABLE_RESERVES("VAR");
     INSERE_TABLE_RESERVES("ECRIRE");
     INSERE_TABLE_RESERVES("LIRE");
-    TABLE_MOTS_RESERVES;
 }
 
 
