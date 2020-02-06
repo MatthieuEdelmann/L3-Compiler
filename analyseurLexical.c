@@ -34,6 +34,7 @@ void LIRE_CAR(){
 void SAUTER_SEPARATEURS() {
     bool flag = false;
     while (!flag) {
+        LIRE_CAR();
         while (CARLU == ' '  || CARLU == '\n') {
             LIRE_CAR();
         }
@@ -48,16 +49,18 @@ void SAUTER_SEPARATEURS() {
 }// TEST bon
 
 
+
 T_UNILEX RECO_ENTIER(){ 
     char* CHAINE= malloc(sizeof(CHAINE));
     while (((int)CARLU >= 48) && ((int)CARLU <= 57)) { 
        CHAINE = strcat(CHAINE,&CARLU);
         LIRE_CAR(SOURCE);
     }
-   if(strlen(CHAINE) >= NB_MOTS_RESERVES)  ERREUR(2); // a faire mieux
     NOMBRE = atoi(CHAINE);
+    if(NOMBRE>MAX_INT)  ERREUR(2); // a faire mieux
     return ent;
-}
+}// TEST bon 
+
 
 T_UNILEX RECO_CHAINE(){
     int i =0;
@@ -68,6 +71,7 @@ T_UNILEX RECO_CHAINE(){
         LIRE_CAR();
         i++;
     }
+    LIRE_CAR();// a voir
     return ch;
 }//TEST bon 
 
