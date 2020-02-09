@@ -1,4 +1,4 @@
-//
+////
 // Created by matet on 30/01/2020.
 //
 #include "analyseurLexical.h"
@@ -54,7 +54,7 @@ T_UNILEX RECO_ENTIER(){
         LIRE_CAR(SOURCE);
     }
     NOMBRE = atoi(CHAINE);
-    if(NOMBRE>MAX_INT)  ERREUR(2); // a faire mieux
+    if(NOMBRE>MAX_INT)  ERREUR(2); 
     return ent;
 }// TEST bon 
 
@@ -81,27 +81,36 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
                 toupper(CARLU);
                 CHAINE[i] = CARLU;
             }
-        }
-        LIRE_CAR();
-        i++;
-        if (EST_UN_MOT_RESERVE()){
-            return motcle;
-        } 
-        else {
-            return ident;
+             LIRE_CAR(); 
+                i++;
         }
     }
-}
+    if (EST_UN_MOT_RESERVE()){
+          printf("mot clé");
+        return motcle;
+    } 
+    else {
+        return ident;
+    }
+}// TEST bon 
 
 bool EST_UN_MOT_RESERVE(){
-        int i = 0;
-        while (i<NB_MOTS_RESERVES){
-            if (CHAINE[0]==TABLE_MOTS_RESERVES[0][0]){// faux 
-                return true;
-            } 
-            i++;
-        }
-        return false;       
+    int i,w;
+    int sizeChaine = strlen(CHAINE);
+    //printf("%d",sizeChaine);
+    for (int k=0;k<NB_MOTS_RESERVES;k++){
+        w=0;
+      for (i = 0; i<sizeChaine;i++){
+            if (CHAINE[i] == TABLE_MOTS_RESERVES[k][i]){
+                w++;
+                }    
+        }  
+        if (w == sizeChaine){
+            return true;
+        }    
+    }   
+    
+    return false;       
 }
 
 T_UNILEX RECO_SYMB(){
@@ -184,7 +193,7 @@ T_UNILEX RECO_SYMB(){
         ERREUR(4); // si le caractere n'est pas compris parmi eux alors on le connais
         break;
     }
-}
+}// TEST bon
 
 void ANALEX(){
     if ((CARLU == ' ')|| (CARLU == '{')){
@@ -201,23 +210,35 @@ void ANALEX(){
     }
     else
         RECO_SYMB();
+}// TEST bon 
+
+
+void INSERE_TABLE_RESERVES(char nouveauMot[]){
+   int x=  strlen(nouveauMot);
+  // if (x >9 ) mot trop long 
+  // if (CONST > NB MOT RESERVE)
+    for (int i =0; i<x;i++){
+    TABLE_MOTS_RESERVES[CONST][i] = nouveauMot[i];
+    }
+    CONST ++;
+ 
 }
+
 
 void INITIALISER(){
     NUM_LIGNE = 1;
     SOURCE = fopen("SOURCE.txt", "r");
-   /* char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9] = {{0},{0}}; // initialise le tableau avec des '0'
-   INSERE_TABLE_RESERVES("PROGRAMME");
+ //  char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9]; 
+    INSERE_TABLE_RESERVES("PROGRAMME");
     INSERE_TABLE_RESERVES("DEBUT");
     INSERE_TABLE_RESERVES("FIN");
     INSERE_TABLE_RESERVES("CONST");
     INSERE_TABLE_RESERVES("VAR");
     INSERE_TABLE_RESERVES("ECRIRE");
     INSERE_TABLE_RESERVES("LIRE");
-    TABLE_MOTS_RESERVES;*/
-}
+}// good 
 
 
 void TERMINER(){
     fclose(SOURCE);
-}
+}// TEST bon
