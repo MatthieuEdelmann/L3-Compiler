@@ -14,6 +14,9 @@ void ERREUR(int numeroErreur){
         case 4:
             printf("Erreur n°%d / Ligne n°%d : Caractère non valide ",numeroErreur, NUM_LIGNE);
             break;
+        case 5:
+            printf("Erreur n°%d / Ligne n°%d : Mauvaise initialisation du tableau mot réervé ",numeroErreur, NUM_LIGNE);
+            break;
     }
     exit(0);
 }// TEST bon 
@@ -63,7 +66,7 @@ T_UNILEX RECO_CHAINE(){
         LIRE_CAR();
         i++;
     }
-    LIRE_CAR();// a voir
+    LIRE_CAR();
     return ch;
 }//TEST bon 
 
@@ -207,13 +210,14 @@ void ANALEX(){
 
 void INSERE_TABLE_RESERVES(char nouveauMot[]){
    int x=  strlen(nouveauMot);
-  // if (x >9 ) mot trop long 
-  // if (CONST > NB MOT RESERVE)
-    for (int i =0; i<x;i++){
-    TABLE_MOTS_RESERVES[CONST][i] = nouveauMot[i];
+   if (x <= 9 && CONST <= NB_MOTS_RESERVES) {
+        for (int i =0; i<x;i++){
+            TABLE_MOTS_RESERVES[CONST][i] = nouveauMot[i];
+        }
     }
+    else ERREUR(5);
     CONST ++;
-} // a finir 
+} // TEST bon 
 
 void INITIALISER(){
     NUM_LIGNE = 1;
