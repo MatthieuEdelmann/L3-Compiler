@@ -48,8 +48,7 @@ int NB_IDENT = 0;
 int CHERCHER(char nom[LONG_MAX_IDENT]);
 int INSERER(char nom[LONG_MAX_IDENT], T_IDENT type);
 void AFFICHE_TABLE_IDENT();
-void INITIALISER1();
-void TERMINER1();
+
 
 
 

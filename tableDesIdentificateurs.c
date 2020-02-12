@@ -53,12 +53,3 @@ void AFFICHE_TABLE_IDENT(){
     }
 }
 
-void INITIALISER1(){
-    NB_IDENT = 0;
-    TABLE_SYMBOLES = malloc(NB_IDENT * sizeof(T_ENREG_IDENT));
-    TABLE_INDEX = malloc(NB_IDENT * sizeof(int));
-}
-
-void TERMINER1(){
-    free(TABLE_SYMBOLES);
-}
