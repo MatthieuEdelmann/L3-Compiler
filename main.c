@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include "analyseurLexical.h"
-
+#include "analyseurLexical.c"
+#include "analyseurSyntaxique.c"
+#include "test.c"
 
 int main() {
     INITIALISER();
-    LIRE_CAR();
-    ANALEX();
+    ANASYNT();
     TERMINER();
+    //TEST_ALL();
 }
