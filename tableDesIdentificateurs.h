@@ -42,7 +42,7 @@ typedef struct {
 
 int* TABLE_INDEX;
 T_ENREG_IDENT* TABLE_SYMBOLES;
-int NB_IDENT = 0;
+int NB_IDENT;
 //type P_T_ENREG_IDENT = ^T_ENREG_IDENT;
 
 int CHERCHER(char nom[LONG_MAX_IDENT]);

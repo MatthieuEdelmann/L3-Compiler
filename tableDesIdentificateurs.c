@@ -5,6 +5,7 @@
 #include "tableDesIdentificateurs.h"
 
 int CHERCHER(char nom[LONG_MAX_IDENT]){
+    //Recherche Dichotomique
     int cmpResult;
     bool trouve = false;
     int debut = 0;
@@ -32,7 +33,9 @@ int INSERER(char nom[LONG_MAX_IDENT], T_IDENT tIdent){
         TABLE_SYMBOLES[NB_IDENT] = newIdent;
         NB_IDENT++;
         // recherche du 1er nom superieur au newIdent.nom
-        while (strcmp(nom, TABLE_SYMBOLES[TABLE_INDEX[i]].nom) != 1){
+        while (strcmp(nom, TABLE_SYMBOLES[TABLE_INDEX[i]].nom) == 1){
+            printf("nom = %s\n",nom);
+            printf("table symboles[%d] = %s\n",TABLE_INDEX[i],TABLE_SYMBOLES[TABLE_INDEX[i]].nom);
             i++;
         }
         //Decalage de données

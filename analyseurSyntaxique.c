@@ -71,7 +71,7 @@ bool AFFECTATION(){
 }
 
 bool OP_BIN(){
-    if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == div){
+    if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == divi){
         return true;
     }
     else return false;

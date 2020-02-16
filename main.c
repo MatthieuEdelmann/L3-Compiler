@@ -7,7 +7,12 @@ void TERMINER();
 
 int main() {
     INITIALISER();
+    printf("test");
     INSERER("ZEBI",variable);
+    INSERER("CAGOLE",variable);
+    INSERER("FREDERIQUE",constante);
+    INSERER("FAROUK",variable);
+    INSERER("FLEGON",variable);
     INSERER("SABER",constante);
     printf(" est a la position %d\n",CHERCHER("SABER"));
     AFFICHE_TABLE_IDENT();
@@ -18,6 +23,7 @@ int main() {
 void INITIALISER() {
     //AnalyseurLexical
     NUM_LIGNE = 1;
+    CONST = 0;
     SOURCE = fopen("SOURCE.txt", "r");
     LIRE_CAR();// pour commencer
     INSERE_TABLE_RESERVES("PROGRAMME");

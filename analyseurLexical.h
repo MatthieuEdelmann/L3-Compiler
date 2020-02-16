@@ -18,7 +18,7 @@ int NOMBRE;
 char CHAINE[LONG_MAX_CHAINE];
 int NUM_LIGNE;
 char TABLE_MOTS_RESERVES[NB_MOTS_RESERVES][9];
-int CONST=0;
+int CONST;
 
 void ERREUR(int numeroErreur);
 void LIRE_CAR();
