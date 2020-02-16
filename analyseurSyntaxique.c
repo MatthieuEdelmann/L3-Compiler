@@ -35,46 +35,12 @@ bool PROG(){
     else return false;
 }
 
-bool INSTRUCTION(){
-    // AFFECTATION | LECTURE | ECRITURE | BLOC 
-    if (AFFECTATION() || LECTURE() || ECRITURE() || BLOC() ) {
-        return true; 
-    }
-    else return false;
-}
-
-bool ECRITURE(){
-    return false;
-}
-
-bool LECTURE(){
+bool DECL_CONST(){
     return true;
 }
 
-bool AFFECTATION(){
-    return false;
-/*    if (UNILEX == ident){
-        UNILEX = ANALEX();
-        if (UNILEX = aff){
-            UNILEX = ANALEX();
-            if(EXP()){
-                return true;
-            }
-            else return false;
-           
-        }
-        else return false; // erreur syntaxique dnas une instruction d'affectation 
-    }
-    else{
-        return false;// erreur syntaxique dans une instruction d'affectation 
-    }*/
-}
-
-bool OP_BIN(){
-    if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == div){
-        return true;
-    }
-    else return false;
+bool DECL_VAR(){
+    return true;
 }
 
 bool BLOC(){
@@ -83,13 +49,10 @@ bool BLOC(){
     //...
     //FIN
     UNILEX = ANALEX();
-    if (UNILEX != motcle){//  DEBUT 
-       // printf("%c",CARLU);
-        LIRE_CAR();
-      //  printf("%c",CARLU);
-        UNILEX = ANALEX();
+    if (UNILEX != motcle){//  DEBUT    
+        UNILEX = ANALEX();//  
         if (INSTRUCTION()){// INSTRUCTION
-            LIRE_CAR();
+            LIRE_CAR();   
             UNILEX = ANALEX();
             if (UNILEX != motcle){ // FIN
                 return true;
@@ -100,3 +63,82 @@ bool BLOC(){
     }
     else return false;
 }
+
+bool INSTRUCTION(){
+    // AFFECTATION | LECTURE | ECRITURE | BLOC 
+    if (AFFECTATION() || LECTURE() || ECRITURE() || BLOC() ) {
+        return true; 
+    }
+    else return false;
+}
+
+bool AFFECTATION(){
+   if (UNILEX == ident){ 
+        UNILEX = ANALEX();
+        if (UNILEX == aff){ 
+            LIRE_CAR();
+            UNILEX = ANALEX();
+            if(EXP()){
+                return true;
+            }
+            else return false;  
+        }
+        else return false; // erreur syntaxique dnas une instruction d'affectation 
+    }
+    else{
+        return false;// erreur syntaxique dans une instruction d'affectation 
+    }
+}
+
+bool LECTURE(){
+    bool fin,erreur;
+    if ((UNILEX  == motcle ) && (CHAINE == 'LIRE')){
+        UNILEX = ANALEX();
+        if (UNILEX == parouv){
+            UNILEX = ANALEX();
+            if (UNILEX == ident){
+                UNILEX = ANALEX();
+                fin = false;
+                erreur = false;
+                while (/* condition */)
+                {
+                    /* code */
+                }
+                
+            }
+        }
+     
+    }
+    else return false;
+}
+
+bool ECRITURE(){
+    return false;
+}
+
+bool ECR_EXP(){
+    return true;
+}
+
+bool EXP(){
+    return true;
+}
+
+bool SUITE_TERME(){
+    return true;
+}
+
+bool TERME(){
+    if (UNILEX == ent || UNILEX == ident || ){
+        return true; 
+    }
+    else return false;
+}
+
+bool OP_BIN(){
+    if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == div){
+        return true;
+    }
+    else return false;
+}
+
