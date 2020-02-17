@@ -5,7 +5,7 @@
 void ANASYNT(){
     UNILEX = ANALEX();
     if(PROG()){
-        printf("Le programme source est syntaxiquement correct");
+        printf("Le programme source est syntaxiquement correct\n");
     }
     else ERREUR(0); //erreur syntaxique
 }
@@ -15,8 +15,8 @@ bool PROG(){
     //DECL_CONST 
     //DECL_VAR
     // BLOC
-    if ((UNILEX == motcle ) ){// PROGRAMME 
-        printf("PROGRAMME");
+    if ((UNILEX == motcle ) && (strcmp(CHAINE, "PROGRAMME") == 0)){// PROGRAMME 
+        printf(" PROGRAMME \n");
         UNILEX = ANALEX();
         if (UNILEX  == ident){ //IDENT 
             UNILEX = ANALEX();
@@ -49,13 +49,15 @@ bool BLOC(){
     //INSTRUCTION
     //...
     //FIN
+    
     UNILEX = ANALEX();
-    if (UNILEX == motcle){//  DEBUT  
-        printf(" DEBUT ");
+    if ((UNILEX == motcle) && (strcmp(CHAINE, "DEBUT") == 0)){//  DEBUT  
+        printf(" DEBUT \n");
         UNILEX = ANALEX();//
         if (INSTRUCTION()){// INSTRUCTION
-            if (UNILEX == motcle){ // FIN
-                printf(" FIN ");
+        // ajout de plusieurs instruction 
+            if ((UNILEX == motcle) ){ // FIN
+                printf(" FIN \n");
                 return true;
             }
             else return false;
@@ -67,8 +69,9 @@ bool BLOC(){
 
 bool INSTRUCTION(){
     // AFFECTATION | LECTURE | ECRITURE | BLOC 
-    if (AFFECTATION() || ECRITURE() || LECTURE() || BLOC() ) {
-       printf(" INSTRUCTION ");
+    printf (" -> ");
+    if ( AFFECTATION() || ECRITURE() || LECTURE() || BLOC() ) {
+       printf("  <- INSTRUCTION \n");
         return true; 
     }
     else return false;
@@ -87,9 +90,7 @@ bool AFFECTATION(){
         }
         else return false; // erreur syntaxique dnas une instruction d'affectation 
     }
-    else{
-        return false;// erreur syntaxique dans une instruction d'affectation 
-    }
+    else return false; // erreur syntaxique dans une instruction d'affectation 
 }
 
 bool LECTURE(){
@@ -98,16 +99,15 @@ bool LECTURE(){
     // LECTURE (nb)
     // LECTURE (x , y ,z)
     bool fin,erreur;
-    if (UNILEX  == motcle ){ //LIRE  add && LIRE 
+    if ((UNILEX  == motcle) && (strcmp(CHAINE, "LIRE") == 0)){ //LIRE  add && LIRE 
         UNILEX = ANALEX();
-        if (UNILEX == parouv){
-       
+        if (UNILEX == parouv){     
             UNILEX = ANALEX();
             if (UNILEX == ident){
                 UNILEX = ANALEX(); 
                 fin = false;
                 erreur = false;
-                do { // debug la boucle 
+               /* do { // debug la boucle 
                     if (UNILEX == virg){
                         fin = false;
                         printf("%c",CARLU);
@@ -123,7 +123,7 @@ bool LECTURE(){
                     }
                     else fin = true;
                 } while (fin == false);
-                
+               */ 
                 if (UNILEX == parfer){
                     UNILEX = ANALEX();
                     printf(" LIRE ");
@@ -139,33 +139,85 @@ bool LECTURE(){
 }
 
 bool ECRITURE(){
-    return false;
+    //ECRIRE (a )_
+    //ECRIRE ('a')_
+    //ECRIRE ( )_
+    // ecrire plusieurs
+    bool fin,erreur;
+    if ((UNILEX  == motcle ) && (strcmp(CHAINE, "ECRIRE") == 0)){ //ECRIRE  add && ECRIRE 
+        UNILEX = ANALEX();
+        if (UNILEX == parouv){
+            UNILEX = ANALEX();
+            erreur = false;
+            if (ECR_EXP()){
+                UNILEX = ANALEX();
+                fin = false;
+               // do{
+                    if (UNILEX == virg){
+                       UNILEX = ANALEX();// a 
+                        
+                      /*  erreur != ECR_EXP();
+                        if (erreur){
+                            fin = true;
+                        }*/
+                        
+                         UNILEX = ANALEX(); // ) 
+                         
+                    } 
+                    else fin = true;
+              //  }while (fin == false);*/
+            }
+          //  if (erreur){return false;} //erreur syntaxique dans instruction d'ecriture: expression incorrecte
+            if (UNILEX == parfer){
+                UNILEX = ANALEX();
+                printf(" ECRITURE ");
+                return true;
+            }
+            else return false; //erreur syntaxique dnas instruction d'ecriture: ')' attendu 
+        }
+        else return false; //erreur syntaxique dans instruction d'ecriture: '(' attendu 
+    }
+    else return false; //erreur syntaxique dans instruction d'ecriture: mot clé 'ECRIRE' attendu 
 }
 
 bool ECR_EXP(){
-    return true;
-}
-
-bool EXP(){
-    return true;
-}
-
-bool SUITE_TERME(){
-    return true;
-}
-
-bool TERME(){
-    if (UNILEX == ent || UNILEX == ident ){
-        return true; 
-    }
+    // EXP | 'ch'
+    if ( UNILEX == ch || EXP() ){
+       // UNILEX = ANALEX();
+        return true;
+    } 
     else return false;
 }
-
-bool OP_BIN(){
-    if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == div){
+   
+bool EXP(){
+    // TERME SUITE_TERME 
+    if (TERME() && SUITE_TERME() ){
         return true;
     }
     else return false;
+}
+
+bool SUITE_TERME(){
+    //  '  ' | TERME OP_BIN EXP
+  //  if (TERME() && OP_BIN()){
+        return true;
+   // }
+   // else return false;
+}
+
+bool TERME(){
+    // ENT | IDENT | ( EXP ) | - TERME 
+  //  if (UNILEX == ent || UNILEX == ident ){
+        return true; 
+   // }
+    //else return false;
+}
+
+bool OP_BIN(){
+    //if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == div){
+        return true;
+  //  }
+  //  else return false;
 }
 
 
