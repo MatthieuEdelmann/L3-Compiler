@@ -38,7 +38,7 @@ int INSERER(char nom[LONG_MAX_IDENT], T_IDENT tIdent){
             if(strcmp(nom,TABLE_SYMBOLES[TABLE_INDEX[i]].nom) != 1) break;
         }
         tmp = TABLE_INDEX[i];
-        TABLE_INDEX[i] = NB_IDENT - 1;
+        TABLE_INDEX[i] = NB_IDENT-1;
         i++;
         while(i < NB_IDENT - 1){
             tmp2 =  TABLE_INDEX[i];

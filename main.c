@@ -7,9 +7,8 @@ void TERMINER();
 
 int main() {
     INITIALISER();
-    printf("test");
-    INSERER("ZEBI",variable);
-    INSERER("CAGOLE",variable);
+    INSERER("NON",variable);
+    INSERER("MISTER",variable);
     INSERER("FREDERIQUE",constante);
     INSERER("FAROUK",variable);
     INSERER("FLEGON",variable);
