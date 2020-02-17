@@ -15,11 +15,12 @@ bool PROG(){
     //DECL_CONST 
     //DECL_VAR
     // BLOC
-    if (UNILEX == motcle){// PROGRAMME 
+    if ((UNILEX == motcle ) ){// PROGRAMME 
+        printf("PROGRAMME");
         UNILEX = ANALEX();
         if (UNILEX  == ident){ //IDENT 
             UNILEX = ANALEX();
-            if (UNILEX == ptvirg){  // point virgule 
+            if (UNILEX == ptvirg){  // point virgule  
                 LIRE_CAR();// \n
                 //DECL_CONST 
                 //DECL_VAR
@@ -49,12 +50,12 @@ bool BLOC(){
     //...
     //FIN
     UNILEX = ANALEX();
-    if (UNILEX != motcle){//  DEBUT    
-        UNILEX = ANALEX();//  
+    if (UNILEX == motcle){//  DEBUT  
+        printf(" DEBUT ");
+        UNILEX = ANALEX();//
         if (INSTRUCTION()){// INSTRUCTION
-            LIRE_CAR();   
-            UNILEX = ANALEX();
-            if (UNILEX != motcle){ // FIN
+            if (UNILEX == motcle){ // FIN
+                printf(" FIN ");
                 return true;
             }
             else return false;
@@ -66,19 +67,20 @@ bool BLOC(){
 
 bool INSTRUCTION(){
     // AFFECTATION | LECTURE | ECRITURE | BLOC 
-    if (AFFECTATION() || LECTURE() || ECRITURE() || BLOC() ) {
+    if (AFFECTATION() || ECRITURE() || LECTURE() || BLOC() ) {
+       printf(" INSTRUCTION ");
         return true; 
     }
     else return false;
 }
 
 bool AFFECTATION(){
-   if (UNILEX == ident){ 
+    if (UNILEX == ident){ 
         UNILEX = ANALEX();
         if (UNILEX == aff){ 
-            LIRE_CAR();
             UNILEX = ANALEX();
             if(EXP()){
+                printf(" AFFECTATION ");
                 return true;
             }
             else return false;  
@@ -91,25 +93,49 @@ bool AFFECTATION(){
 }
 
 bool LECTURE(){
+    // bug il faut ecrire 
+    // LIRE (a )_ 
+    // LECTURE (nb)
+    // LECTURE (x , y ,z)
     bool fin,erreur;
-    if ((UNILEX  == motcle ) && (CHAINE == 'LIRE')){
+    if (UNILEX  == motcle ){ //LIRE  add && LIRE 
         UNILEX = ANALEX();
         if (UNILEX == parouv){
+       
             UNILEX = ANALEX();
             if (UNILEX == ident){
-                UNILEX = ANALEX();
+                UNILEX = ANALEX(); 
                 fin = false;
                 erreur = false;
-                while (/* condition */)
-                {
-                    /* code */
-                }
+                do { // debug la boucle 
+                    if (UNILEX == virg){
+                        fin = false;
+                        printf("%c",CARLU);
+                        UNILEX = ANALEX(); 
+                        if(UNILEX == ident){
+                            printf("%c",CARLU);
+                            UNILEX = ANALEX();
+                        }
+                        else {
+                            fin = true;
+                            erreur = true;
+                        }
+                    }
+                    else fin = true;
+                } while (fin == false);
                 
+                if (UNILEX == parfer){
+                    UNILEX = ANALEX();
+                    printf(" LIRE ");
+                    return true; 
+                }
+                else return false;//erreur syntaxique dans instruction de lecture: ')' attendu 
             }
+            else return false;//erreur syntaxique dans instruction de lecture: 'ident' attendu 
         }
-     
-    }
-    else return false;
+        else return false;//erreur syntaxique dans instruction de lecture: '(' attendu 
+   }
+    else return false;//erreur syntaxique dans instruction de lecture: mot clé 'LIRE' attendu
 }
 
 bool ECRITURE(){
@@ -129,7 +155,7 @@ bool SUITE_TERME(){
 }
 
 bool TERME(){
-    if (UNILEX == ent || UNILEX == ident || ){
+    if (UNILEX == ent || UNILEX == ident ){
         return true; 
     }
     else return false;
@@ -141,4 +167,6 @@ bool OP_BIN(){
     }
     else return false;
 }
+
+
 
