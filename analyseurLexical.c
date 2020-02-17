@@ -77,6 +77,10 @@ T_UNILEX RECO_CHAINE(){
 }//TEST bon 
 
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
+     int j=0;
+     for (j=0;j < LONG_MAX_CHAINE;j++){
+          CHAINE[j] = NULL;
+    }
     int i = 0;
     while(((int)CARLU >= 48 && (int)CARLU <= 57) || ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
         if (i < LONG_MAX_CHAINE) {
@@ -89,23 +93,21 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
             i++;
         }
     }
-    
+
     if (EST_UN_MOT_RESERVE()){
         LIRE_CAR(); 
-      //  printf("mot clé");
+      //  printf(" mot clé ");
         return motcle;
     } 
     else {
-         //LIRE_CAR(); 
-      //  printf("id");
-        
+        LIRE_CAR();
         return ident;
     }
 }// TEST bon 
 
 bool EST_UN_MOT_RESERVE(){
-    int i,w;
-    int sizeChaine = strlen(CHAINE);
+    int j,i,w;
+    int sizeChaine = strlen(CHAINE);  
     for (int k=0;k<NB_MOTS_RESERVES;k++){
         w=0;
         for (i = 0; i<sizeChaine;i++){
@@ -115,7 +117,7 @@ bool EST_UN_MOT_RESERVE(){
         } 
         if (w == sizeChaine ){
             return true;
-        }    
+        }
     }   
     return false;       
 }// a amélioré 
@@ -123,6 +125,10 @@ bool EST_UN_MOT_RESERVE(){
 T_UNILEX RECO_SYMB(){
     switch (CARLU)
     {
+    case ',':
+        LIRE_CAR();
+        return virg;
+        break;
     case ';':
         LIRE_CAR();
         return ptvirg;
@@ -216,7 +222,7 @@ T_UNILEX ANALEX(){
         RECO_IDENT_OU_MOT_RESERVE();
     }
     else
-     //   printf("ici");
+
         RECO_SYMB();
 }// TEST bon 
 
