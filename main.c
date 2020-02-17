@@ -35,8 +35,8 @@ void INITIALISER() {
     INSERE_TABLE_RESERVES("LIRE");
     //TableDesIdent
     NB_IDENT = 0;
-    TABLE_SYMBOLES = malloc(NB_IDENT * sizeof(T_ENREG_IDENT));
-    TABLE_INDEX = malloc(NB_IDENT * sizeof(int));
+   // TABLE_SYMBOLES = malloc((1 + NB_IDENT) * sizeof(T_ENREG_IDENT));
+   // TABLE_INDEX = malloc((1 + NB_IDENT) * sizeof(int));
 }
 
 
@@ -45,4 +45,6 @@ void TERMINER() {
     fclose(SOURCE);
     //TableDesIdent
     free(TABLE_SYMBOLES);
+    free(TABLE_INDEX);
+
 }

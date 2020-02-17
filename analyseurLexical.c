@@ -1,4 +1,5 @@
 #include "analyseurLexical.h"
+#include "tableDesIdentificateurs.h"
 
 void ERREUR(int numeroErreur){
     switch (numeroErreur){
@@ -98,7 +99,7 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
     else {
         //LIRE_CAR();
         //  printf("id");
-
+        //INSERER(CHAINE,); // definir son type (constante/variable)
         return ident;
     }
 }// TEST bon 

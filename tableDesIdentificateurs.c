@@ -24,35 +24,44 @@ int CHERCHER(char nom[LONG_MAX_IDENT]){
 
 int INSERER(char nom[LONG_MAX_IDENT], T_IDENT tIdent){
     if(NB_IDENT < NB_IDENT_MAX){
-        int i = 0;
+        //init
+        int i;
         int j = NB_IDENT - 1;
-        int tmp;
+        int tmp, tmp2;
+        //ajout du nouveau identificateur
         T_ENREG_IDENT newIdent;
         strcpy(newIdent.nom, nom);
         newIdent.tIdent = tIdent;
         TABLE_SYMBOLES[NB_IDENT] = newIdent;
         NB_IDENT++;
-        // recherche du 1er nom superieur au newIdent.nom
-        while (strcmp(nom, TABLE_SYMBOLES[TABLE_INDEX[i]].nom) == 1){
-            printf("nom = %s\n",nom);
-            printf("table symboles[%d] = %s\n",TABLE_INDEX[i],TABLE_SYMBOLES[TABLE_INDEX[i]].nom);
+        for (i = 0; i < NB_IDENT - 1; ++i) {
+            if(strcmp(nom,TABLE_SYMBOLES[TABLE_INDEX[i]].nom) != 1) break;
+        }
+        tmp = TABLE_INDEX[i];
+        TABLE_INDEX[i] = NB_IDENT - 1;
+        i++;
+        while(i < NB_IDENT - 1){
+            tmp2 =  TABLE_INDEX[i];
+            TABLE_INDEX[i] = tmp;
+            tmp = tmp2;
             i++;
         }
-        //Decalage de données
-        while(j > i) {
-            TABLE_INDEX[j] = TABLE_INDEX[j + 1];
-            j--;
-        }
-        //Attribution de la position du dernier Ident
-        TABLE_INDEX[i] = NB_IDENT - 1;
+        //AFFICHE_TABLE_IDENT();
     }
     return NB_IDENT - 1;
 }
 
+
+
 void AFFICHE_TABLE_IDENT(){
     printf("Affichage de la table d'indentificateurs =\n");
     for (int i = 0; i < NB_IDENT ; ++i) {
-        printf("    %s\n",TABLE_SYMBOLES[TABLE_INDEX[i]].nom);
+        printf("index[%d]:%d", i, TABLE_INDEX[i]);
+        printf("   -> %s\n", TABLE_SYMBOLES[TABLE_INDEX[i]].nom);
+    }
+    printf("Affichage de la table d'indentificateurs brut =\n");
+    for (int i = 0; i < NB_IDENT ; ++i) {
+        printf("   - %s\n",TABLE_SYMBOLES[i].nom);
     }
 }
 
