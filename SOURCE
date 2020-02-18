@@ -1,4 +1,8 @@
-PROGRAMME exemple;
+PROGRAMME exemple ;
 DEBUT
-*
-FIN
+LIRE
+ (a ),
+ECRIRE ('a'),
+LIRE (a ),
+i := 2
+FIN 
