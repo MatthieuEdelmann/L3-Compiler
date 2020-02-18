@@ -16,11 +16,13 @@ bool PROG(){
     //DECL_VAR
     // BLOC
     if ((UNILEX == motcle ) && (strcmp(CHAINE, "PROGRAMME") == 0)){// PROGRAMME 
-        printf(" PROGRAMME \n");
+        printf(" PROGRAMME ");
         UNILEX = ANALEX();
         if (UNILEX  == ident){ //IDENT 
+            printf("IDENT");
             UNILEX = ANALEX();
             if (UNILEX == ptvirg){  // point virgule  
+                printf(";\n");
                 LIRE_CAR();// \n
                 //DECL_CONST 
                 //DECL_VAR
@@ -49,15 +51,22 @@ bool BLOC(){
     //INSTRUCTION
     //...
     //FIN
-    
+    bool fin,erreur;
     UNILEX = ANALEX();
     if ((UNILEX == motcle) && (strcmp(CHAINE, "DEBUT") == 0)){//  DEBUT  
         printf(" DEBUT \n");
         UNILEX = ANALEX();//
         if (INSTRUCTION()){// INSTRUCTION
-        // ajout de plusieurs instruction 
-            if ((UNILEX == motcle) ){ // FIN
-                printf(" FIN \n");
+            while (fin == false){     
+                if (UNILEX == virg){
+                    LIRE_CAR();
+                    UNILEX = ANALEX();
+                    INSTRUCTION();
+                }
+                else fin=true;
+            }
+            if ((UNILEX == motcle) ){ // FIN  
+                printf(" FIN \n"); 
                 return true;
             }
             else return false;
@@ -71,7 +80,7 @@ bool INSTRUCTION(){
     // AFFECTATION | LECTURE | ECRITURE | BLOC 
     printf (" -> ");
     if ( AFFECTATION() || ECRITURE() || LECTURE() || BLOC() ) {
-       printf("  <- INSTRUCTION \n");
+        printf("  <- INSTRUCTION \n");
         return true; 
     }
     else return false;
