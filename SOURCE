@@ -1,8 +1,8 @@
 PROGRAMME exemple ;
 DEBUT
-LIRE
- (a ),
-ECRIRE ('a'),
-LIRE (a ),
-i := 2
-FIN 
+ECRIRE ('aa',z );
+LIRE (a );
+i := s  
+FIN . 
+
+
