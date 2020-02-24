@@ -1,5 +1,4 @@
 #include "analyseurLexical.h"
-#include "tableDesIdentificateurs.h"
 
 void ERREUR(int numeroErreur){
     switch (numeroErreur){
@@ -23,7 +22,7 @@ void ERREUR(int numeroErreur){
             break;
     }
     exit(0);
-}// TEST bon 
+}// TEST bon
 
 void LIRE_CAR(){
     if (SOURCE != NULL){
@@ -62,9 +61,12 @@ T_UNILEX RECO_ENTIER(){
     NOMBRE = atoi(CHAINE);
     if(NOMBRE>MAX_INT)  ERREUR(2);
     return ent;
-}// TEST bon 
+}// TEST bon
 
 T_UNILEX RECO_CHAINE(){
+    for (int j=0;j < LONG_MAX_CHAINE;j++){
+        CHAINE[j] = NULL;
+    }
     int i =0;
     LIRE_CAR();
     while ((int)CARLU != 39){
@@ -75,9 +77,13 @@ T_UNILEX RECO_CHAINE(){
     }
     LIRE_CAR();
     return ch;
-}//TEST bon 
+}//TEST bon
 
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
+    int j=0;
+    for (j=0;j < LONG_MAX_CHAINE;j++){
+        CHAINE[j] = NULL;
+    }
     int i = 0;
     while(((int)CARLU >= 48 && (int)CARLU <= 57) || ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
         if (i < LONG_MAX_CHAINE) {
@@ -93,19 +99,17 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
 
     if (EST_UN_MOT_RESERVE()){
         LIRE_CAR();
-        //  printf("mot clé");
+        //  printf(" mot clé ");
         return motcle;
     }
     else {
-        //LIRE_CAR();
-        //  printf("id");
-        //INSERER(CHAINE,); // definir son type (constante/variable)
+        LIRE_CAR();
         return ident;
     }
-}// TEST bon 
+}// TEST bon
 
 bool EST_UN_MOT_RESERVE(){
-    int i,w;
+    int j,i,w;
     int sizeChaine = strlen(CHAINE);
     for (int k=0;k<NB_MOTS_RESERVES;k++){
         w=0;
@@ -119,11 +123,15 @@ bool EST_UN_MOT_RESERVE(){
         }
     }
     return false;
-}// a amélioré 
+}// a amélioré
 
 T_UNILEX RECO_SYMB(){
     switch (CARLU)
     {
+        case ',':
+            LIRE_CAR();
+            return virg;
+            break;
         case ';':
             LIRE_CAR();
             return ptvirg;
@@ -217,9 +225,9 @@ T_UNILEX ANALEX(){
         RECO_IDENT_OU_MOT_RESERVE();
     }
     else
-        //   printf("ici");
+
         RECO_SYMB();
-}// TEST bon 
+}// TEST bon
 
 void INSERE_TABLE_RESERVES(char nouveauMot[]){
     int x=  strlen(nouveauMot);
@@ -231,3 +239,21 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
     else ERREUR(5);
     CONST ++;
 } // TEST bon
+
+void INITIALISER_ANALEX(){
+    NUM_LIGNE = 1;
+    SOURCE = fopen("SOURCE.txt", "r");
+    LIRE_CAR();// pour commencer
+    INSERE_TABLE_RESERVES("PROGRAMME");
+    INSERE_TABLE_RESERVES("DEBUT");
+    INSERE_TABLE_RESERVES("FIN");
+    INSERE_TABLE_RESERVES("CONST");
+    INSERE_TABLE_RESERVES("VAR");
+    INSERE_TABLE_RESERVES("ECRIRE");
+    INSERE_TABLE_RESERVES("LIRE");
+
+}//TEST bon
+
+void TERMINER_ANALEX(){
+    fclose(SOURCE);
+}// TEST bon

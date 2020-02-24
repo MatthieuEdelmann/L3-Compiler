@@ -65,3 +65,12 @@ void AFFICHE_TABLE_IDENT(){
     }
 }
 
+void INITIALISER_TABLE_IDENT() {
+    NB_IDENT = 0;
+}
+
+void TERMINER_TABLE_IDENT() {
+    //free(TABLE_SYMBOLES);
+    //free(TABLE_INDEX);
+    //  malloc non nécessaire selon le prof
+}

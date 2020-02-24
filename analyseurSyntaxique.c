@@ -11,21 +11,28 @@ void ANASYNT(){
 }
 
 bool PROG(){
+    printf(" PROG \n");
     // PRGRAMME ident ;
     //DECL_CONST
     //DECL_VAR
     // BLOC
     if ((UNILEX == motcle ) && (strcmp(CHAINE, "PROGRAMME") == 0)){// PROGRAMME
-        printf(" PROGRAMME \n");
+        printf(" PROGRAMME ");
         UNILEX = ANALEX();
         if (UNILEX  == ident){ //IDENT
+            printf(" IDENT ");
             UNILEX = ANALEX();
             if (UNILEX == ptvirg){  // point virgule
+                printf(" ; ");
                 LIRE_CAR();// \n
                 //DECL_CONST
                 //DECL_VAR
                 if(BLOC()){
+                    // UNILEX = ANALEX();
+                    //if (UNILEX == point){  // point
+                    //  printf(" . \n");
                     return true;
+                    // }
                 }
                 else return false;
             }
@@ -45,19 +52,35 @@ bool DECL_VAR(){
 }
 
 bool BLOC(){
+    printf("BLOC \n");
     //DEBUT
     //INSTRUCTION
     //...
     //FIN
-
+    bool fin = false,erreur;
     UNILEX = ANALEX();
     if ((UNILEX == motcle) && (strcmp(CHAINE, "DEBUT") == 0)){//  DEBUT
         printf(" DEBUT \n");
         UNILEX = ANALEX();//
         if (INSTRUCTION()){// INSTRUCTION
-            // ajout de plusieurs instruction
-            if ((UNILEX == motcle) ){ // FIN
-                printf(" FIN \n");
+            UNILEX = ANALEX();
+            while (fin == false){
+                if (UNILEX == ptvirg){
+                    printf(" ; \n");
+                    LIRE_CAR();
+                    UNILEX = ANALEX();
+                    INSTRUCTION();
+                    UNILEX = ANALEX();
+                }
+                else {
+                    LIRE_CAR();
+                    printf(" \n");
+                    fin=true;
+                }
+            }
+            UNILEX = ANALEX();
+            if ((UNILEX == motcle) && (strcmp(CHAINE, "FIN") == 0) ){ // FIN
+                printf(" FIN  ");
                 return true;
             }
             else return false;
@@ -69,21 +92,23 @@ bool BLOC(){
 
 bool INSTRUCTION(){
     // AFFECTATION | LECTURE | ECRITURE | BLOC
-    printf (" -> ");
+    printf (" INSTRUCTION  -->");
     if ( AFFECTATION() || ECRITURE() || LECTURE() || BLOC() ) {
-        printf("  <- INSTRUCTION \n");
         return true;
     }
     else return false;
 }
 
 bool AFFECTATION(){
+    // ident := x_
     if (UNILEX == ident){
+        printf(" AFFECTATION --> ");
+        printf(" IDENT -> ");
         UNILEX = ANALEX();
         if (UNILEX == aff){
+            printf("%s := ",CHAINE);
             UNILEX = ANALEX();
             if(EXP()){
-                printf(" AFFECTATION ");
                 return true;
             }
             else return false;
@@ -96,37 +121,38 @@ bool AFFECTATION(){
 bool LECTURE(){
     // bug il faut ecrire
     // LIRE (a )_
-    // LECTURE (nb)
     // LECTURE (x , y ,z)
     bool fin,erreur;
     if ((UNILEX  == motcle) && (strcmp(CHAINE, "LIRE") == 0)){ //LIRE  add && LIRE
+        printf(" LECTURE --> ");
+        printf("LIRE ");
         UNILEX = ANALEX();
         if (UNILEX == parouv){
+            printf(" ( ");
             UNILEX = ANALEX();
             if (UNILEX == ident){
-                UNILEX = ANALEX();
+                printf (" IDENT -> ");
+                printf("%s",CHAINE);
                 fin = false;
                 erreur = false;
-                /* do { // debug la boucle
-                     if (UNILEX == virg){
-                         fin = false;
-                         printf("%c",CARLU);
-                         UNILEX = ANALEX();
-                         if(UNILEX == ident){
-                             printf("%c",CARLU);
-                             UNILEX = ANALEX();
-                         }
-                         else {
-                             fin = true;
-                             erreur = true;
-                         }
-                     }
-                     else fin = true;
-                 } while (fin == false);
-                */
-                if (UNILEX == parfer){
+                while (fin == false){
                     UNILEX = ANALEX();
-                    printf(" LIRE ");
+                    if (UNILEX == virg){
+                        printf(" , ");
+                        UNILEX = ANALEX();
+                        if (UNILEX == ident){
+                            printf("%s",CHAINE);
+                        }
+                        else {
+                            printf("erreur pas ident");
+                            fin = true;
+                            erreur = true ;
+                        }
+                    }
+                    else fin = true;
+                }
+                if (UNILEX == parfer){
+                    printf(" ) ");
                     return true;
                 }
                 else return false;//erreur syntaxique dans instruction de lecture: ')' attendu
@@ -141,36 +167,36 @@ bool LECTURE(){
 bool ECRITURE(){
     //ECRIRE (a )_
     //ECRIRE ('a')_
+    //ECRIRE (a ,b )
     //ECRIRE ( )_
-    // ecrire plusieurs
     bool fin,erreur;
     if ((UNILEX  == motcle ) && (strcmp(CHAINE, "ECRIRE") == 0)){ //ECRIRE  add && ECRIRE
+        printf(" ECRITURE --> ");
+        printf(" ECRIRE ");
         UNILEX = ANALEX();
         if (UNILEX == parouv){
+            printf(" ( ");
             UNILEX = ANALEX();
             erreur = false;
-            if (ECR_EXP()){
-                UNILEX = ANALEX();
-                fin = false;
-                // do{
-                if (UNILEX == virg){
-                    UNILEX = ANALEX();// a
-
-                    /*  erreur != ECR_EXP();
-                      if (erreur){
-                          fin = true;
-                      }*/
-
-                    UNILEX = ANALEX(); // )
-
+            while(fin == false){
+                if (ECR_EXP()){
+                    printf("%s",CHAINE);
+                    UNILEX = ANALEX();
+                    fin = false;
+                    if (UNILEX == virg){
+                        printf(" , ");
+                        UNILEX = ANALEX();
+                    }
+                    else fin = true;
                 }
-                else fin = true;
-                //  }while (fin == false);*/
+                else {
+                    erreur = true;
+                    fin = true;
+                }
             }
-            //  if (erreur){return false;} //erreur syntaxique dans instruction d'ecriture: expression incorrecte
+            if (erreur == true ){return false;} //erreur syntaxique dans instruction d'ecriture: expression incorrecte
             if (UNILEX == parfer){
-                UNILEX = ANALEX();
-                printf(" ECRITURE ");
+                printf(" ) ");
                 return true;
             }
             else return false; //erreur syntaxique dnas instruction d'ecriture: ')' attendu
@@ -180,42 +206,85 @@ bool ECRITURE(){
     else return false; //erreur syntaxique dans instruction d'ecriture: mot clé 'ECRIRE' attendu
 }
 
+
+
 bool ECR_EXP(){
     // EXP | 'ch'
-    if ( UNILEX == ch || EXP() ){
-        // UNILEX = ANALEX();
+    if ( UNILEX == ch ){
+        printf(" CH -> ");
+        return true;
+    }
+    else if (UNILEX == ident)
+    {
+        printf(" IDENT -> ");
         return true;
     }
     else return false;
 }
 
 bool EXP(){
+    printf(" EXP --> ");
     // TERME SUITE_TERME
-    if (TERME() && SUITE_TERME() ){
+    if (TERME() ){
+        //if (TERME() && SUITE_TERME() ){
         return true;
     }
     else return false;
 }
 
 bool SUITE_TERME(){
-    //  '  ' | TERME OP_BIN EXP
-    //  if (TERME() && OP_BIN()){
-    return true;
-    // }
-    // else return false;
+    // add exp vide
+    //  '  ' | OP_BIN EXP
+    printf("%c 1",CARLU);
+    UNILEX = ANALEX();
+
+    if ( OP_BIN() && EXP() ){
+
+        return true;
+    }
+    else return false;
 }
 
 bool TERME(){
+    printf(" TERME --> ");
     // ENT | IDENT | ( EXP ) | - TERME
-    //  if (UNILEX == ent || UNILEX == ident ){
-    return true;
-    // }
-    //else return false;
+    UNILEX = ANALEX();
+    if (UNILEX == ent ){
+        UNILEX = ANALEX();
+        printf(" ENT -> ");
+        printf(" '%d' ",NOMBRE);
+        return true;
+    }
+    if (UNILEX == ident ){
+        printf(" IDENT -> ");
+        printf(" '%s' ",CHAINE);
+        return true;
+    }
+    else return false;
 }
 
 bool OP_BIN(){
-    //if (UNILEX == plus || UNILEX == moins || UNILEX == mult || UNILEX == div){
-    return true;
-    //  }
-    //  else return false;
+    printf(" OP_BIN -> ");
+    switch (UNILEX)
+    {
+        case plus:
+            printf(" + ");
+            return true;
+            break;
+        case moins:
+            printf(" - ");
+            return true;
+            break;
+        case mult:
+            printf(" * ");
+            return true;
+            break;
+        case divi:
+            printf(" / ");
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
 }
