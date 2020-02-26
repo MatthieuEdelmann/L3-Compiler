@@ -1,6 +1,5 @@
 PROGRAMME exemple ;
 DEBUT
-ECRIRE ('aa',z );
-LIRE (a );
-i := s
-FIN .
+z := x ;
+ECRIRE (z ) 
+FIN . 
