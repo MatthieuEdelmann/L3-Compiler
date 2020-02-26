@@ -11,6 +11,15 @@ void ANASYNT(){
     else ERREUR(0); //erreur syntaxique
 }
 
+/******************************
+*FONCTION: PROG()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   PROGRAMME ident;
+*   BLOC
+*
+********************************/
 bool PROG(){
     printf(" PROG \n");
     // PRGRAMME ident ;
@@ -44,6 +53,7 @@ bool PROG(){
     else return false;
 }
 
+
 bool DECL_CONST(){
     return true;
 }
@@ -52,6 +62,25 @@ bool DECL_VAR(){
     return true;
 }
 
+/******************************
+*FONCTION: BLOC()
+*   Regarde que le programme est bien 
+*   de la forme :
+*
+*   DEBUT
+*   INSTRUCTION
+*   FIN
+*
+*   ou 
+*
+*   DEBUT
+*   INSTRUCTION;
+*   INSTRCTION;
+*   ...
+*   INSTRUCTION
+*   FIN
+*
+********************************/
 bool BLOC(){
     printf("BLOC \n");
     //DEBUT
@@ -91,6 +120,16 @@ bool BLOC(){
     else return false;
 }
 
+/******************************
+*FONCTION: INSTRUCTION()
+*   Regarde que le programme est bien 
+*   une affectiation ou une ecriture ou une lecture 
+*   ou un bloc. Si l'une de ses fonctions retourne vrai 
+*   alors INSTRUCTION() va retourner vrai.
+*   Si aucune des fontions ne retourne vrai, alors
+*   INSTRUCTION() retourne faux.
+*
+********************************/
 bool INSTRUCTION(){
     // AFFECTATION | LECTURE | ECRITURE | BLOC
     printf (" INSTRUCTION  -->");
@@ -100,6 +139,16 @@ bool INSTRUCTION(){
     else return false;
 }
 
+/******************************
+*FONCTION: AFFECTATION()
+*   Cet fonction va affecter à un identifiant 
+*   une expression. Pour vérifier cela 
+*   On regarde que la premiere valeur est bien de
+*   type ident suivie d'une affectation cad ':='.
+*   Puis on appel la fonction EXP() qui si elle est vrai 
+*   fait retourner vrai à AFFECTATION() sinon faux.
+*
+********************************/
 bool AFFECTATION(){
     // ident := x_
     if (UNILEX == ident){
