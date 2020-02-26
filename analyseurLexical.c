@@ -103,6 +103,7 @@ T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
         return motcle;
     }
     else {
+         INSERER(CHAINE,variable);
         LIRE_CAR();
         return ident;
     }
@@ -241,9 +242,10 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
 } // TEST bon
 
 void INITIALISER_ANALEX(){
-    NUM_LIGNE = 1;
+NUM_LIGNE = 1;
     SOURCE = fopen("SOURCE.txt", "r");
-    LIRE_CAR();// pour commencer
+    INITIALISER_TABLE_IDENT();
+    LIRE_CAR();// pour commencer 
     INSERE_TABLE_RESERVES("PROGRAMME");
     INSERE_TABLE_RESERVES("DEBUT");
     INSERE_TABLE_RESERVES("FIN");
@@ -251,9 +253,10 @@ void INITIALISER_ANALEX(){
     INSERE_TABLE_RESERVES("VAR");
     INSERE_TABLE_RESERVES("ECRIRE");
     INSERE_TABLE_RESERVES("LIRE");
-
+    
 }//TEST bon
 
 void TERMINER_ANALEX(){
+    TERMINER_TABLE_IDENT();
     fclose(SOURCE);
 }// TEST bon
