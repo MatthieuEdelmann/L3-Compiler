@@ -3,16 +3,12 @@
 #include "tableDesIdentificateurs.h"
 #include "analyseurSyntaxique.h"
 
-void INITIALISER();
-void TERMINER();
 
 int main() {
-    INITIALISER_ANALEX();
-    INITIALISER_TABLE_IDENT();
+     INITIALISER();
     ANASYNT();
-    AFFICHE_TABLE_IDENT();
-    TERMINER_ANALEX();
-    TERMINER_TABLE_IDENT();
+    TERMINER();
+    //TEST_ALL();
 }
 
 
