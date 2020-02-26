@@ -6,6 +6,7 @@ void ANASYNT(){
     UNILEX = ANALEX();
     if(PROG()){
         printf("Le programme source est syntaxiquement correct\n");
+          AFFICHE_TABLE_IDENT();
     }
     else ERREUR(0); //erreur syntaxique
 }
