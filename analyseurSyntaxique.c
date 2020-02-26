@@ -1,6 +1,6 @@
-#include "analyseurSyntaxique.h"
 #include "analyseurLexical.h"
-
+#include "tableDesIdentificateurs.h"
+#include "analyseurSyntaxique.h"
 
 void ANASYNT(){
     UNILEX = ANALEX();

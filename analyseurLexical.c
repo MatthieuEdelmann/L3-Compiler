@@ -1,4 +1,6 @@
 #include "analyseurLexical.h"
+#include "tableDesIdentificateurs.h"
+#include "analyseurSyntaxique.h"
 
 void ERREUR(int numeroErreur){
     switch (numeroErreur){
@@ -241,7 +243,7 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
     CONST ++;
 } // TEST bon
 
-void INITIALISER_ANALEX(){
+void INITIALISER(){
 NUM_LIGNE = 1;
     SOURCE = fopen("SOURCE.txt", "r");
     INITIALISER_TABLE_IDENT();
@@ -256,7 +258,7 @@ NUM_LIGNE = 1;
     
 }//TEST bon
 
-void TERMINER_ANALEX(){
+void TERMINER(){
     TERMINER_TABLE_IDENT();
     fclose(SOURCE);
 }// TEST bon

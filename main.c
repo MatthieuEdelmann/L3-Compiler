@@ -5,7 +5,7 @@
 
 
 int main() {
-     INITIALISER();
+    INITIALISER();
     ANASYNT();
     TERMINER();
     //TEST_ALL();

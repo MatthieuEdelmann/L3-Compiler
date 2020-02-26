@@ -1,5 +1,5 @@
 PROGRAMME exemple ;
 DEBUT
 z := x ;
-ECRIRE (z ) 
-FIN . 
+ECRIRE (z )
+FIN .
