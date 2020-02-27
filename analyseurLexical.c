@@ -1,5 +1,15 @@
 #include "analyseurLexical.h"
+#include "tableDesIdentificateurs.c"
 
+
+/******************************
+*   FONCTION: ERREUR(int numeroErreur)
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 void ERREUR(int numeroErreur){
     switch (numeroErreur){
           case 0:
@@ -22,8 +32,16 @@ void ERREUR(int numeroErreur){
             break;
     }
     exit(0);
-}// TEST bon 
+}
 
+/******************************
+*   FONCTION: LIRE_CAR()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 void LIRE_CAR(){
     if (SOURCE != NULL){
         CARLU = fgetc(SOURCE);
@@ -33,8 +51,16 @@ void LIRE_CAR(){
         } 
         if (CARLU == EOF) ERREUR(1); //Fin de fichier
         }
-}// TEST bon
+}
 
+/******************************
+*   FONCTION: SAUTER_SEPARATEURS()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 void SAUTER_SEPARATEURS() {
     bool flag = false;
     while (!flag) {
@@ -50,8 +76,17 @@ void SAUTER_SEPARATEURS() {
         }
         flag = true;
     }
-}// TEST bon
+}
 
+
+/******************************
+*   FONCTION: RECO_ENTIER()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 T_UNILEX RECO_ENTIER(){ 
     char* CHAINE= malloc(sizeof(CHAINE));
     while (((int)CARLU >= 48) && ((int)CARLU <= 57)) { 
@@ -61,8 +96,16 @@ T_UNILEX RECO_ENTIER(){
     NOMBRE = atoi(CHAINE);
     if(NOMBRE>MAX_INT)  ERREUR(2); 
     return ent;
-}// TEST bon 
+}
 
+/******************************
+*   FONCTION: RECO_CHAINE()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 T_UNILEX RECO_CHAINE(){
      for (int j=0;j < LONG_MAX_CHAINE;j++){
           CHAINE[j] = NULL;
@@ -77,37 +120,52 @@ T_UNILEX RECO_CHAINE(){
     }
     LIRE_CAR();
     return ch;
-}//TEST bon 
+}
 
+/******************************
+*   FONCTION: RECO_IDENT_OU_MOT_RESERVE()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 T_UNILEX RECO_IDENT_OU_MOT_RESERVE(){
-     int j=0;
-     for (j=0;j < LONG_MAX_CHAINE;j++){
+     int j=0,i=0;
+
+    for (j=0;j < LONG_MAX_CHAINE;j++){
           CHAINE[j] = NULL;
     }
-    int i = 0;
     while(((int)CARLU >= 48 && (int)CARLU <= 57) || ((int)CARLU >= 65 && (int)CARLU <= 90) || ((int)CARLU >= 97 && (int)CARLU <= 122) || CARLU == '_'){
         if (i < LONG_MAX_CHAINE) {
             if ((int)CARLU >= 97 && (int)CARLU <= 122) CARLU -= 32;{
                 toupper(CARLU);
                 CHAINE[i] = CARLU;
-               // printf("%c",CARLU);
             }
             LIRE_CAR(); 
             i++;
         }
+        
     }
-
-    if (EST_UN_MOT_RESERVE()){
+    if (EST_UN_MOT_RESERVE()){//mot clé
         LIRE_CAR(); 
-      //  printf(" mot clé ");
         return motcle;
     } 
-    else {
+    else {//ident
+        INSERER(CHAINE,variable);
         LIRE_CAR();
         return ident;
     }
-}// TEST bon 
+}
 
+/******************************
+*   FONCTION: EST_UN_MOT_RESERVE()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 bool EST_UN_MOT_RESERVE(){
     int j,i,w;
     int sizeChaine = strlen(CHAINE);  
@@ -123,8 +181,16 @@ bool EST_UN_MOT_RESERVE(){
         }
     }   
     return false;       
-}// a amélioré 
+}
 
+/******************************
+*   FONCTION: RECO_SYMB()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 T_UNILEX RECO_SYMB(){
     switch (CARLU)
     {
@@ -209,8 +275,16 @@ T_UNILEX RECO_SYMB(){
         ERREUR(4); // si le caractere n'est pas compris parmi eux alors on le connais
         break;
     }
-}// TEST bon
+}
 
+/******************************
+*   FONCTION: ANALEX()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 T_UNILEX ANALEX(){
     if ((CARLU == ' ')|| (CARLU == '{')){
         SAUTER_SEPARATEURS();
@@ -225,10 +299,17 @@ T_UNILEX ANALEX(){
         RECO_IDENT_OU_MOT_RESERVE();
     }
     else
-
         RECO_SYMB();
-}// TEST bon 
+}
 
+/******************************
+*   FONCTION: INSERE_TABLE_RESERVES()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 void INSERE_TABLE_RESERVES(char nouveauMot[]){
    int x=  strlen(nouveauMot);
    if (x <= 9 && CONST <= NB_MOTS_RESERVES) {
@@ -238,11 +319,20 @@ void INSERE_TABLE_RESERVES(char nouveauMot[]){
     }
     else ERREUR(5);
     CONST ++;
-} // TEST bon 
+} 
 
+/******************************
+*   FONCTION: INITIALISER()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 void INITIALISER(){
     NUM_LIGNE = 1;
     SOURCE = fopen("SOURCE.txt", "r");
+    INITIALISER_TABLE_IDENT();
     LIRE_CAR();// pour commencer 
     INSERE_TABLE_RESERVES("PROGRAMME");
     INSERE_TABLE_RESERVES("DEBUT");
@@ -252,8 +342,17 @@ void INITIALISER(){
     INSERE_TABLE_RESERVES("ECRIRE");
     INSERE_TABLE_RESERVES("LIRE");
     
-}//TEST bon
+}
 
+/******************************
+*   FONCTION: TERMINER()
+*   Regarde que le programme est bien 
+*   de la forme 
+*
+*   Retourne:
+*
+********************************/
 void TERMINER(){
+    TERMINER_TABLE_IDENT();
     fclose(SOURCE);
-}// TEST bon
+}
