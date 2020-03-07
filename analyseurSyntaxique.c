@@ -25,9 +25,6 @@ void ANASYNT(){
 ********************************/
 bool PROG(){
     printf(" PROG \n");
-    //DECL_CONST
-    //DECL_VAR
-    // BLOC
     if ((UNILEX == motcle ) && (strcmp(CHAINE, "PROGRAMME") == 0)){// PROGRAMME
         printf(" PROGRAMME ");
         UNILEX = ANALEX();
@@ -38,7 +35,7 @@ bool PROG(){
                 printf(" ; ");
                 LIRE_CAR();// \n
                 //DECL_CONST
-                //DECL_VAR
+                DECL_VAR();
                 if(BLOC()){
                     // UNILEX = ANALEX();
                     //if (UNILEX == point){  // point
@@ -55,14 +52,49 @@ bool PROG(){
     else return false;
 }
 
-
+/******************************
+*FONCTION:DECL_CONST()
+*   
+*
+********************************/
 bool DECL_CONST(){
     return true;
 }
 
+/******************************
+*FONCTION:DECL_VAR()
+*   VAR nb_;
+*
+********************************/
 bool DECL_VAR(){
-    return true;
+    bool fin = false,erreur;
+    UNILEX = ANALEX();
+    if ((UNILEX == motcle ) && (strcmp(CHAINE, "VAR") == 0)){
+        printf(" \n DECL_VAR  --> ");
+        printf(" VAR ");
+        UNILEX = ANALEX();
+        while (fin ==false){
+            if (UNILEX  == ident){ //IDENT
+                printf(" IDENT -> ");
+                printf("%s ",CHAINE);
+                UNILEX = ANALEX();
+                if (UNILEX == ptvirg){  // point virgule
+                    printf(" ; \n");
+                    LIRE_CAR();
+                    fin =true;
+                }
+                else if (UNILEX == virg){
+                    printf(" , ");
+                    UNILEX = ANALEX();
+                }
+            }
+            else erreur= true;
+        }
+       if (erreur == true)   return false;
+       return true;
+    }
 }
+
 
 /******************************
 *   FONCTION: BLOC()
@@ -102,7 +134,7 @@ bool BLOC(){
                     LIRE_CAR();
                     UNILEX = ANALEX();
                     INSTRUCTION();
-                     UNILEX = ANALEX();
+                    UNILEX = ANALEX();
                 }
                 else if (UNILEX != ptvirg){
                     LIRE_CAR();
