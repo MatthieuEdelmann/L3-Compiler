@@ -25,7 +25,6 @@ void ANASYNT(){
 ********************************/
 bool PROG(){
     printf(" PROG \n");
-    // PRGRAMME ident ;
     //DECL_CONST
     //DECL_VAR
     // BLOC
@@ -105,13 +104,15 @@ bool BLOC(){
                     INSTRUCTION();
                      UNILEX = ANALEX();
                 }
-                else {
+                else if (UNILEX != ptvirg){
                     LIRE_CAR();
                     printf(" \n");
                     fin=true;
                 }
             }
-            UNILEX = ANALEX();
+              
+        //
+    UNILEX = ANALEX();
             if ((UNILEX == motcle) && (strcmp(CHAINE, "FIN") == 0) ){ // FIN
                 printf(" FIN  ");
                 return true;
@@ -150,11 +151,11 @@ bool INSTRUCTION(){
 *   type ident suivie d'une affectation cad ':='.
 *   Puis on appel la fonction EXP() qui si elle est vrai 
 *   fait retourner vrai à AFFECTATION() sinon faux.
-*   ident := x_
-*
+*   
+*   i := o__; 
 ********************************/
 bool AFFECTATION(){
-    if (UNILEX == ident){
+      if (UNILEX == ident){
         printf(" AFFECTATION --> ");
         printf(" IDENT -> ");
         UNILEX = ANALEX();
@@ -174,9 +175,8 @@ bool AFFECTATION(){
 /******************************
 *FONCTION: LECTURE()
 *   Fonction boolean 
-*   bug il faut ecrire
 *   LIRE (a )_
-*   LECTURE (x , y ,z)
+*   LECTURE (x ,y ,z )
 *
 ********************************/
 bool LECTURE(){
@@ -223,12 +223,13 @@ bool LECTURE(){
 }
 
 /******************************
-*FONCTION: LECTURE()
+*FONCTION: ECRITURE()
 *   Fonction boolean 
 *   ECRIRE (a )_
 *   ECRIRE ('a')_
 *   ECRIRE (a ,b )
-*   ECRIRE ( )_
+*   ECRIRE ()_
+*   ECRIRE ('XXXX',a )_
 *
 ********************************/
 bool ECRITURE(){
@@ -250,10 +251,12 @@ bool ECRITURE(){
                         printf(" , ");
                         UNILEX = ANALEX();
                     }
-                    else fin = true;
+                    else {
+                       // erreur = true;
+                        fin = true;
+                    }
                 }
                 else {
-                    erreur = true;
                     fin = true;
                 }
             }
@@ -268,7 +271,6 @@ bool ECRITURE(){
     }
     else return false; //erreur syntaxique dans instruction d'ecriture: mot clé 'ECRIRE' attendu
 }
-
 
 /******************************
 *FONCTION: ECR_EXP()
@@ -297,8 +299,8 @@ bool ECR_EXP(){
 bool EXP(){
     printf(" EXP --> ");
     // TERME SUITE_TERME
-    if (TERME() ){
-        //if (TERME() && SUITE_TERME() ){
+    //if (TERME() && SUITE_TERME() ){
+    if (TERME() && SUITE_TERME()){
         return true;
     }
     else return false;
@@ -312,11 +314,9 @@ bool EXP(){
 bool SUITE_TERME(){
     // add exp vide
     //  '  ' | OP_BIN EXP
-    printf("%c 1",CARLU);
-    UNILEX = ANALEX();
-
-    if ( OP_BIN() && EXP() ){
-
+  
+    UNILEX = ANALEX(); 
+    if ( CARLU == ';' || OP_BIN() && EXP()){
         return true;
     }
     else return false;
@@ -338,8 +338,11 @@ bool TERME(){
         return true;
     }
     if (UNILEX == ident ){
+       
         printf(" IDENT -> ");
         printf(" '%s' ",CHAINE);
+       // printf("%c",CARLU);
+        //UNILEX = ANALEX();
         return true;
     }
     else return false;
