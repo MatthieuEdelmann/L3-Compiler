@@ -1,0 +1,10 @@
+PROGRAMME exemple ;
+CONST m =33,z ='zzzz',k ='a',o ='paozpi';
+VAR nb ;
+DEBUT
+ECRIRE ('Entrez un nombre entier:');
+LIRE (nb );
+nb := 11 *m  ;
+ECRIRE ();
+ECRIRE ('le carré du nombre est:',nb )  
+FIN .
